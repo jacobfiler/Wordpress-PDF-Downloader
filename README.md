@@ -21,7 +21,7 @@ Ensure you have the following installed on your local machine:
 
 2. Navigate into the project directory:
    ```bash
-   cd Wordpress-PDF-Downloader
+   cd <dir-name>
 
  3. Install the required dependencies:
     ```bash
