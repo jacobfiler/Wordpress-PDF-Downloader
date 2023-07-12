@@ -1,6 +1,5 @@
 import os
 import paramiko
-import maskpass
 from colorama import Fore, Back, Style
 
 #clear the screen
