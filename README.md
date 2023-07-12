@@ -46,6 +46,13 @@ With the dependencies installed and the .env file set up, you can run the projec
   python doc_downloader.py
 ```
 
+To change what years the script looks through, change line 54 to whatever you need. The included code looks through Jan-Dec from 2018-2020
+```python
+years = [str(year) for year in range(2018, 2021)]  # From 2018 to 2020
+months = [str(month).zfill(2) for month in range(1, 13)]  # All months
+
+```
+Hint: The top number of a range in python is one less than specified. So if you want to search up to 2021, you would need to set the upper range to 2022. Date input from the terminal, where one can just put the date in the terminal is next on my list of features to add,
 
 
 
