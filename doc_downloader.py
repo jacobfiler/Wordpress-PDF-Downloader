@@ -51,7 +51,7 @@ os.system('cls' if os.name == 'nt' else 'clear')
 print(Fore.WHITE + Back.CYAN + 'Connected to SFTP server.')
 
 # Define the years and months you are interested in
-years = [str(year) for year in range(2018, 2021)]  # From 2018 to 2023
+years = [str(year) for year in range(2018, 2021)]  # From 2018 to 2020
 months = [str(month).zfill(2) for month in range(1, 13)]  # All months
 
 # Iterate over each year
