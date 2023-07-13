@@ -50,8 +50,14 @@ os.system('cls' if os.name == 'nt' else 'clear')
 print(Fore.WHITE + Back.CYAN + 'Connected to SFTP server.')
 
 # Define the years and months you are interested in
-years = [str(year) for year in range(2018, 2021)]  # From 2018 to 2020
-months = [str(month).zfill(2) for month in range(1, 13)]  # All months
+years = [str(year) for year in range(2023, 2024)]  # From 2018 to 2020
+months = [str(month).zfill(2) for month in range(5, 13)]  # All months
+
+
+# Initialize the counter outside the loops
+downloaded_files_counter = 0
+# Define your folder name
+folder_name = 'downloaded_files'
 
 # Iterate over each year
 for year in years:
@@ -73,36 +79,37 @@ for year in years:
 
         script_dir = os.path.dirname(os.path.abspath(__file__))
 
+        # Phrases to filter out
+        filter_phrases = ["FGA-Staff-bio-sheet", "Video-Summary"]
+
+        # Iterate over each file
+        for file in files:
+            # Only proceed if the file is a PDF
+            if file.endswith('.pdf'): 
+                
+                if any(phrase in file for phrase in filter_phrases):
+                    print(Fore.YELLOW + Back.BLACK + f"File {file} contains a filter phrase. Skipping download.")
+                    continue
 
 
-# Define your folder name
-folder_name = 'downloaded_files'
-
-# Initialize the counter
-downloaded_files_counter = 0
-
-# Iterate over each file
-for file in files:
-    # Only proceed if the file is a PDF
-    if file.endswith('.pdf'):
-        # Form the file path
-        file_path = os.path.join(dir_path, file)
-        # Form the local file path
-        local_file_path = os.path.join(script_dir, folder_name, file)
-        if os.path.isfile(local_file_path):
-            print(Fore.RED + Back.BLACK + f"File {file} already exists. Skipping download.")
-            continue
-        # Ensure the directory exists
-        os.makedirs(os.path.dirname(local_file_path), exist_ok=True)
-        # Download the file
-        try:
-            sftp.get(file_path, local_file_path)
-            # Increment the counter
-            downloaded_files_counter += 1
-            print(Fore.GREEN + Back.BLACK + f'File {file} downloaded. Total files downloaded: {downloaded_files_counter}.')
-        except Exception as e:
-            print(f'Could not download file {file}. Error: {e}')
-            continue
+                # Form the file path
+                file_path = os.path.join(dir_path, file)
+                # Form the local file path
+                local_file_path = os.path.join(script_dir, folder_name, file)
+                if os.path.isfile(local_file_path):
+                    print(Fore.RED + Back.BLACK + f"File {file} already exists. Skipping download.")
+                    continue
+                # Ensure the directory exists
+                os.makedirs(os.path.dirname(local_file_path), exist_ok=True)
+                # Download the file
+                try:
+                    sftp.get(file_path, local_file_path)
+                    # Increment the counter
+                    downloaded_files_counter += 1
+                    print(Fore.GREEN + Back.BLACK + f'File {file} downloaded. Total files downloaded: {downloaded_files_counter}.')
+                except Exception as e:
+                    print(f'Could not download file {file}. Error: {e}')
+                    continue
 
 # Close the SFTP session
 sftp.close()
@@ -112,4 +119,3 @@ ssh.close()
 
 # Print the final count
 print(Fore.WHITE + Back.CYAN + f'Download completed. Total files downloaded: {downloaded_files_counter}.')
-
